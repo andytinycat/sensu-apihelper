@@ -47,6 +47,22 @@ module Sensu
         checks.flatten
       end
 
+      def critical_count 
+        @check_statuses.select {|check_status| check_status.critical?}.length
+      end
+
+      def warning_count
+        @check_statuses.select {|check_status| check_status.warning?}.length
+      end
+
+      def unknown_count 
+        @check_statuses.select {|check_status| check_status.unknown?}.length
+      end
+
+      def ok_count
+        @check_statuses.select {|check_status| check_status.ok?}.length
+      end
+
       # Look up custom client attributes.
       def [](key)
         case key.class

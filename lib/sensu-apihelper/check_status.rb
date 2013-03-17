@@ -34,6 +34,22 @@ module Sensu
         inspect
       end
 
+      def warning?
+        @status == 1 || false
+      end
+
+      def critical?
+        @status == 2 || false
+      end
+
+      def ok?
+        @status == 0 || false
+      end
+
+      def unknown?
+        @status == 3 || false
+      end
+
     end
   end
 end

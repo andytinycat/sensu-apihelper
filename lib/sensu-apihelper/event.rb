@@ -26,7 +26,7 @@ module Sensu
       end
 
       def initialize(json)
-        @client      = Client.get_by_name(json["client"])
+        @client      = json["client"]
         @check       = json["check"]
         @occurrences = json["occurrences"]
         @output      = json["output"].chomp
@@ -36,7 +36,7 @@ module Sensu
       end
 
       def inspect
-        "#{self.check} on #{self.client.name}: Output '#{output}', status #{status}, at #{issued}"
+        "#{self.check} on #{self.client}: Output '#{output}', status #{status}, at #{issued}"
       end
 
       def to_s
