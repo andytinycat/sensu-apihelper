@@ -9,7 +9,7 @@ module Sensu
     
     class Client
 
-      attr_accessor :name, :ip, :subscriptions, :last_check_in
+      attr_accessor :name, :ip, :subscriptions, :last_check_in, :check_statuses
 
       # Return all Sensu clients.
       def self.get_all
@@ -35,6 +35,9 @@ module Sensu
         @subscriptions  = json["subscriptions"]
         @last_check_in  = json["timestamp"]
         @json           = json
+        @check_statuses = checks.map do |check|
+          CheckStatus.new(self.name, check.name, @history_data)
+        end
       end
 
       def checks
@@ -42,12 +45,6 @@ module Sensu
           Check.get_by_subscription(subscription) 
         end
         checks.flatten
-      end
-
-      def check_statuses
-        checks.map do |check|
-          CheckStatus.new(self.name, check.name, @history_data)
-        end
       end
 
       # Look up custom client attributes.
